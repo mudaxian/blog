@@ -5,7 +5,7 @@ tags:
 ---
 # mysql
 
-## 一、关系型数据库概述
+## 一、数据库概述
 
 ### 数据库模型
 
@@ -316,3 +316,73 @@ select * from student st right join teacher th on st.teacher_id = th.id;
 
 
 总结：mysql存在七种连接，分别是内连接、左外连接、左外连接特殊情况、右外连接、右外连接特殊情况、全连接、全外连接。总结在一起就是内连接、左外连接、右外连接、全外连接。
+
+
+
+## 三、修改数据
+
+### INSERT
+
+当我们需要向数据库表中插入一条新记录时，就必须使用`INSERT`语句。
+
+```sql
+INSERT INTO students (class_id, name, gender, score) VALUES (2, '大牛', 'M', 80);
+#查询并观察结果:
+SELECT * FROM students;
+```
+
+在students表中插入students_two表的数据，要求两张表结构相同
+
+```sql
+INSERT INTO students SELECT * FROM students_two;
+```
+
+
+
+### UPDATE
+
+如果要更新数据库表中的记录，我们就必须使用`UPDATE`语句。
+
+```sql
+UPDATE students SET name='大牛', score=66 WHERE id=1;
+#查询并观察结果:
+SELECT * FROM students WHERE id=1;
+```
+
+要特别小心的是，`UPDATE`语句可以没有`WHERE`条件，例如：
+
+```sql
+UPDATE students SET score=60;
+```
+
+这时，整个表的所有记录都会被更新。所以，在执行`UPDATE`语句时要非常小心，最好先用`SELECT`语句来测试`WHERE`条件是否筛选出了期望的记录集，然后再用`UPDATE`更新。
+
+
+
+### DELETE
+
+如果要删除数据库表中的记录，我们可以使用`DELETE`语句。
+
+```sql
+DELETE FROM students WHERE id=1;
+#查询并观察结果:
+SELECT * FROM students;
+```
+
+要特别小心的是，和`UPDATE`类似，不带`WHERE`条件的`DELETE`语句会删除整个表的数据：
+
+```sql
+DELETE FROM students;
+```
+
+这时，整个表的所有记录都会被删除。所以，在执行`DELETE`语句时也要非常小心，最好先用`SELECT`语句来测试`WHERE`条件是否筛选出了期望的记录集，然后再用`DELETE`删除。
+
+
+
+## 四、管理Mysql
+
+要管理MySQL，可以使用Navicat
+
+下载及安装连接：
+
+https://blog-chi-ebon.vercel.app/2022/07/08/navicat-install/
