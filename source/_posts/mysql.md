@@ -1,7 +1,8 @@
 ---
 title: mysql
 date: 2022-07-07 14:29:17
-tags:
+tags:[sql,数据库]
+categories:[数据库]
 ---
 # mysql
 

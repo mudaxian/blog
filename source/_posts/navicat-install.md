@@ -1,7 +1,8 @@
 ---
 title: navicat-install
 date: 2022-07-08 11:10:57
-tags:
+tags:['navicat','数据库工具']
+categories:['数据库','数据库工具']
 ---
 
 # Navicat安装及破解教程
