@@ -2,12 +2,18 @@
 title: mysql
 date: 2022-07-07 14:29:17
 tags:
+- Mysql
+- 数据库
+categories:
+- 数据库
+- 数据库基本概念
 ---
+
 # mysql
 
 ## 一、数据库概述
 
-### 数据库模型
+### 1.数据库模型
 
 数据库按照数据结构来组织、存储和管理数据，实际上，数据库一共有三种模型：
 
@@ -29,7 +35,7 @@ tags:
 
 
 
-### 主流关系数据库
+### 2.主流关系数据库
 
 目前，主流的关系数据库主要分为以下几类：
 
@@ -60,7 +66,7 @@ DCL语句：数据控制语句，用于控制不同数据段直接的许可和�
 
 
 
-### 安装数据库
+### 3.安装数据库
 
 https://dev.mysql.com/downloads/mysql/
 
@@ -68,7 +74,7 @@ https://dev.mysql.com/downloads/mysql/
 
 ## 二、查询数据
 
-### 基本查询
+### 1.基本查询
 
 ```sql
 SELECT * FROM <表名>
@@ -76,7 +82,7 @@ SELECT * FROM <表名>
 
 
 
-### 条件查询
+### 2.条件查询
 
 SELECT语句可以通过`WHERE`条件来设定查询条件，查询结果是满足查询条件的记录。
 
@@ -98,7 +104,7 @@ SELECT * FROM students WHERE score >= 80;
 
 
 
-### 投影查询
+### 3.投影查询
 
 如果我们只希望返回某些列的数据，而不是所有列的数据，我们可以用`SELECT 列1, 列2, 列3 FROM ...`，让结果集仅包含指定列。
 
@@ -108,7 +114,7 @@ SELECT id, score, name FROM students;
 
 
 
-### 排序
+### 4.排序
 
 如果我们要根据其他条件排序可以加上`ORDER BY`子句，默认从低到高
 
@@ -124,7 +130,7 @@ SELECT id, name, gender, score FROM students ORDER BY score DESC;
 
 
 
-### 分页查询
+### 5.分页查询
 
 使用SELECT查询时，如果结果集数据量很大，比如几万行数据，放在一个页面显示的话数据量太大，不如分页显示，每次显示100条。
 
@@ -147,7 +153,7 @@ SELECT id, name, gender, score FROM students ORDER BY score DESC LIMIT 3 OFFSET 
 
 
 
-### 聚合查询
+### 6.聚合查询
 
 对于统计总数、平均数这类计算，SQL提供了专门的聚合函数，使用聚合函数进行查询，就是聚合查询，它可以快速获得结果。
 
@@ -174,9 +180,9 @@ SELECT COUNT(*) num FROM students GROUP BY class_id;
 
 
 
-### 多表连接查询
+### 7.多表连接查询
 
-#### 1.交叉连接：笛卡尔积
+#### 7.1.交叉连接：笛卡尔积
 
 SELECT查询不但可以从一张表查询数据，还可以从多张表同时查询数据。查询多张表的语法是：`SELECT * FROM <表1> <表2>`。
 
@@ -202,7 +208,7 @@ SELECT s.id sid, s.name, s.gender, s.score, c.id cid, c.name cname FROM students
    笛卡尔积：一个表的每条数据都和另一个表的所有数据匹配一次
    结    果： 一表 9 条 乘以 另一表 6 条 = 54 条
 
-#### 2.内连接
+#### 7.2.内连接
 
 内连接，取的就是两张表的交集
 
@@ -252,7 +258,7 @@ select s.*,st.teacher_id from student s,student st where s.id = st.teacher_id;
 
 
 
-#### 3.外连接
+#### 7.3.外连接
 
 外连接又分为左外连接、右外连接、全连接
 
@@ -321,7 +327,7 @@ select * from student st right join teacher th on st.teacher_id = th.id;
 
 ## 三、修改数据
 
-### INSERT
+### 1.INSERT
 
 当我们需要向数据库表中插入一条新记录时，就必须使用`INSERT`语句。
 
@@ -339,7 +345,7 @@ INSERT INTO students SELECT * FROM students_two;
 
 
 
-### UPDATE
+### 2.UPDATE
 
 如果要更新数据库表中的记录，我们就必须使用`UPDATE`语句。
 
@@ -359,7 +365,7 @@ UPDATE students SET score=60;
 
 
 
-### DELETE
+### 3.DELETE
 
 如果要删除数据库表中的记录，我们可以使用`DELETE`语句。
 

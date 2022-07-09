@@ -2,11 +2,16 @@
 title: navicat-install
 date: 2022-07-08 11:10:57
 tags:
+- Mysql
+- Navicat
+categories:
+- 数据库
+- 数据库可视化工具
 ---
 
 # Navicat安装及破解教程
 
-## 下载NavicatPremium15
+## 一、下载NavicatPremium15
 
 目前官网已经更新到Navicat Premium16了，本教程为NavicatPremium15的安装与使用教程。
 
@@ -46,7 +51,7 @@ https://pan.baidu.com/s/1xryOs4Yglq4yfSiWsUr33g
 
 
 
-## NavicatPremium15破解过程
+## 二、NavicatPremium15破解过程
 
 建议关闭网络破解
 

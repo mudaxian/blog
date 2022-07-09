@@ -232,12 +232,19 @@ font:
 # 指定自定义 .js 文件路径，支持列表；路径是相对 source 目录，如 /js/custom.js 对应存放目录 source/js/custom.js
 # Specify the path of your custom js file, support list. The path is relative to the source directory, such as `/js/custom.js` corresponding to the directory `source/js/custom.js`
 custom_js:
-  /img/js/rising-bubble.js
+  - /js/diy/timeDate.js
+  - https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js  #/APlayer#/APlayer依赖
+  - https://cdn.jsdelivr.net/gh/metowolf/Metingjs@1.2/dist/Meting.min.js  #/APlayer依赖
+  - https://cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js # 动态彩带
+  - https://cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js # 动态彩带
+
 
 
 # 指定自定义 .css 文件路径，用法和 custom_js 相同
 # The usage is the same as custom_js
 custom_css:
+  - /css/diy/shubiao.css #鼠标指针
+  - //cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css   #/APlayer依赖
 
 # 网页访问统计
 # Analysis of website visitors
@@ -440,6 +447,8 @@ footer:
     # Data source. If use leancloud, you need to set the parameter in `web_analytics: leancloud`
     # Options: busuanzi | leancloud
     source: "busuanzi"
+    pv_format: "总访问量 {} 次"  # 显示的文本，{}是数字的占位符（必须包含)，下同
+    uv_format: "总访客数 {} 人"
 
   # 国内大陆服务器的备案信息
   # For Chinese mainland website policy, other areas keep disable
