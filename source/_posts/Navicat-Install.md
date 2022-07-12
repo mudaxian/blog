@@ -1,5 +1,5 @@
 ---
-title: navicat-install
+title: Navicat-Install
 date: 2022-07-08 11:10:57
 tags:
 - Mysql

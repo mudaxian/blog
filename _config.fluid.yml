@@ -235,6 +235,7 @@ custom_js:
 #  - /js/test.js
   - /js/mouse.js
   - /js/bubble.js
+  - /js/ribbon.js
 
 
 
