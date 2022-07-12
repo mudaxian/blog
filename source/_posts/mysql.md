@@ -389,6 +389,126 @@ DELETE FROM students;
 
 要管理MySQL，可以使用Navicat
 
-下载及安装连接：
+下载及安装链接：
 
 https://blog-chi-ebon.vercel.app/2022/07/08/navicat-install/
+
+
+
+## 五、事务
+
+### 1.概念及作用
+
+MySQL 事务主要用于处理操作量大，复杂度高的数据。比如说，在人员管理系统中，你删除一个人员，你既需要删除人员的基本资料，也要删除和该人员相关的信息，如信箱，文章等等，这样，这些数据库操作语句就构成一个事务！
+
+- 在 MySQL 中只有使用了 Innodb 数据库引擎的数据库或表才支持事务。
+- 事务处理可以用来维护数据库的完整性，保证成批的 SQL 语句要么全部执行，要么全部不执行。
+- 事务用来管理 insert,update,delete 语句
+
+
+
+### 2.条件
+
+一般来说，事务是必须满足4个条件（ACID）：原子性（Atomicity，或称不可分割性）、一致性（Consistency）、隔离性（Isolation，又称独立性）、持久性（Durability）。
+
+- 原子性：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。
+- 一致性：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的预设规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。
+- 隔离性：数据库允许多个并发事务同时对其数据进行读写和修改的能力，隔离性可以防止多个事务并发执行时由于交叉执行而导致数据的不一致。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。
+- 持久性：事务处理结束后，对数据的修改就是永久的，即便系统故障也不会丢失。
+
+注意：在 MySQL 命令行的默认设置下，事务都是自动提交的，即执行 SQL 语句后就会马上执行 COMMIT 操作。因此要显式地开启一个事务务须使用命令 BEGIN 或 START TRANSACTION，或者执行命令 SET AUTOCOMMIT=0，用来禁止使用当前会话的自动提交。
+
+
+
+### 3.事务控制语句
+
+- BEGIN 或 START TRANSACTION 显式地开启一个事务；
+- COMMIT 也可以使用 COMMIT WORK，不过二者是等价的。COMMIT 会提交事务，并使已对数据库进行的所有修改成为永久性的；
+- ROLLBACK 也可以使用 ROLLBACK WORK，不过二者是等价的。回滚会结束用户的事务，并撤销正在进行的所有未提交的修改；
+- SAVEPOINT identifier，SAVEPOINT 允许在事务中创建一个保存点，一个事务中可以有多个 SAVEPOINT；
+- RELEASE SAVEPOINT identifier 删除一个事务的保存点，当没有指定的保存点时，执行该语句会抛出一个异常；
+- ROLLBACK TO identifier 把事务回滚到标记点；
+- SET TRANSACTION 用来设置事务的隔离级别。InnoDB 存储引擎提供事务的隔离级别有READ UNCOMMITTED、READ COMMITTED、REPEATABLE READ 和 SERIALIZABLE。
+
+
+
+### 4.事务处理方法
+
+MYSQL 事务处理主要有两种方法：
+
+#### 用 BEGIN, ROLLBACK, COMMIT来实现
+
+- BEGIN 开始一个事务
+- ROLLBACK 事务回滚
+- COMMIT 事务确认
+
+#### 直接用 SET 来改变 MySQL 的自动提交模式:
+
+- SET AUTOCOMMIT=0 禁止自动提交
+
+- SET AUTOCOMMIT=1 开启自动提交
+
+  
+
+### 5.隔离级别
+
+#### ReadUncommitted
+
+读未提交是隔离级别最低的一种事务级别。在这种隔离级别下，一个事务会读到另一个事务更新后但未提交的数据，如果另一个事务回滚，那么当前事务读到的数据就是脏数据，这就是脏读（Dirty Read）。
+
+查看隔离级别
+
+```sql
+SELECT @@TX_ISOLATION;
+```
+
+设置该级别：
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+```
+
+
+
+#### ReadCommitted
+
+在读已提交隔离级别下，一个事务可能会遇到不可重复读（Non Repeatable Read）的问题。
+
+不可重复读是指，在一个事务内，多次读同一数据，在这个事务还没有结束时，如果另一个事务恰好修改了这个数据，那么，在第一个事务中，两次读取的数据就可能不一致。
+
+设置该级别：
+
+```sql
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+```
+
+
+
+#### RepeatableRead
+
+该级别为Mysql InnoDB默认隔离级别
+
+在可重复读隔离级别下，一个事务可能会遇到幻读（Phantom Read）的问题。
+
+幻读是指，在一个事务中，第一次查询某条记录，发现没有，但是，当试图更新这条不存在的记录时，竟然能成功，并且，再次读取同一条记录，它就神奇地出现了。
+
+设置该级别：
+
+```sql
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+```
+
+
+
+#### Serializeble
+
+序列化是最严格的隔离级别。在Serializable隔离级别下，所有事务按照次序依次执行，因此，脏读、不可重复读、幻读都不会出现。
+
+Serializable隔离级别：一个个事务排成序列的形式。事务一个挨一个执行，等待前一个事务执行完，后面的事务才可以顺序执行。在Serializable级别下，不会使用MySQL的MVCC机制，而是在每一个SELECT请求下获得读锁，在每一个UPDATE操作下尝试获得写锁。如果没有特别重要的情景，一般都不会使用Serializable隔离级别。
+
+设置该级别：
+
+```sql
+SET TRANSACTION ISOLATION LEVEL SERIALIZEBLE;
+```
+
