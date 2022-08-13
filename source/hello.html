@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h id="dehong">${result}</h>
+</body>
+</html>
+
+<script>
+    test();
+
+    function test(){
+        var result = location.search.split('=')[1];
+        $("#dehong").val("result");
+    }
+</script>
